@@ -1,9 +1,9 @@
 import Array "mo:base/Array";
-import Debug "mo:base/Debug";
-import Error "mo:base/Error";
 import Iter "mo:base/Iter";
 import Nat8 "mo:base/Nat8";
 import Nat32 "mo:base/Nat32";
+
+import Util "util";
 
 module CRC32 {
     // Returns the CRC-32 checksum of data using the IEEE polynomial.
@@ -15,7 +15,7 @@ module CRC32 {
     private func simpleUpdate(crc : Nat32, table: [Nat32], data : [Nat8]) : Nat32 {
         var u = ^crc;
         for (v in data.vals()) {
-            u := table[Nat8.toNat(nat32ToNat8(u) ^ v)] ^ (u >> 8)
+            u := table[Nat8.toNat(Util.nat32ToNat8(u) ^ v)] ^ (u >> 8)
         };
         ^u;
     };
@@ -57,9 +57,5 @@ module CRC32 {
         Array.tabulate(t.size(), func (i : Nat) : [Nat32] {
             Array.freeze(t[i]);
         });
-    };
-
-    private func nat32ToNat8(n : Nat32) : Nat8 {
-        Nat8.fromNat(Nat32.toNat(n) % 256);
     };
 };
