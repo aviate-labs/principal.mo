@@ -1,5 +1,3 @@
-import Debug "mo:base/Debug";
-
 import Principal "../principal";
 
 let p = Principal.fromText("em77e-bvlzu-aq");

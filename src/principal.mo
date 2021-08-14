@@ -4,8 +4,6 @@ import Char "mo:base/Char";
 import Prim "mo:⛔"; // Char.toLower();
 import Principal "mo:base/Principal";
 
-import Debug "mo:base/Debug";
-
 import Base32 "base32";
 import CRC32 "crc32";
 import Util "util"

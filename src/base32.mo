@@ -1,6 +1,5 @@
 import Array "mo:base/Array";
 import Char "mo:base/Char";
-import Debug "mo:base/Debug";
 import Iter "mo:base/Iter";
 import Nat8 "mo:base/Nat8";
 import Text "mo:base/Text";
@@ -17,14 +16,6 @@ module Base32 {
                 Util.nat32ToNat8(Char.toNat32(c));
             },
         );
-    };
-
-    private func decodeMap() : [Nat8] {
-        var map = Array.init<Nat8>(256, 0xFF);
-        for (b in encodeMap().vals()) {
-            map[Nat8.toNat(b)] := b;
-        };
-        Array.freeze(map);
     };
 
     private func encodeLen(n : Nat) : Nat {
