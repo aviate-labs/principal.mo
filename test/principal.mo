@@ -1,4 +1,4 @@
-import Principal "../principal";
+import Principal "../src/principal";
 
 let p = Principal.fromText("em77e-bvlzu-aq");
 let b = Principal.toBlob(p);
