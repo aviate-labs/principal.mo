@@ -1,4 +1,4 @@
-import Base32 "../src/base32";
+import Base32 "../src/Principal/base32";
 
 import Debug "mo:base/Debug";
 
