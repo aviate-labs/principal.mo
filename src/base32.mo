@@ -10,7 +10,7 @@ import Util "util";
 module Base32 {
     private let encodeStd = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
 
-    public func encodeMap() : [Nat8] {
+    private func encodeMap() : [Nat8] {
         Array.map<Char,Nat8>(
             Iter.toArray(Text.toIter(encodeStd)),
             func (c : Char) : Nat8 {
@@ -19,12 +19,16 @@ module Base32 {
         );
     };
 
-    public func decodeMap() : [Nat8] {
+    private func decodeMap() : [Nat8] {
         var map = Array.init<Nat8>(256, 0xFF);
         for (b in encodeMap().vals()) {
             map[Nat8.toNat(b)] := b;
         };
         Array.freeze(map);
+    };
+
+    private func encodeLen(n : Nat) : Nat {
+        (n * 8 + 4) / 5;
     };
 
     public func encode(data : [Nat8]) : [Nat8] {
@@ -59,13 +63,21 @@ module Base32 {
                 b[0] := src[0] >> 3;
             };
 
-            let bEnc = Array.map<Nat8,Nat8>(Array.freeze(b), func(n : Nat8) : Nat8 {
-                enc[Nat8.toNat(n & 31)];
-            });
+            let bEnc = Array.map<Nat8,Nat8>(
+                Array.filter<Nat8>(
+                    Array.freeze(b),
+                    func (n : Nat8) : Bool {
+                        n < 32;
+                    },
+                ),
+                func(n : Nat8) : Nat8 {
+                    enc[Nat8.toNat(n & 31)];
+                },
+            );
 
             src := Util.drop(src, 5);
             dst := Array.append(dst, bEnc);
         };
-        dst;
+        Util.take(dst, encodeLen(data.size()));
     }
 };
