@@ -3,7 +3,7 @@ import Iter "mo:base/Iter";
 import Nat8 "mo:base/Nat8";
 import Nat32 "mo:base/Nat32";
 
-import Util "util";
+import util "util";
 
 module CRC32 {
     // Returns the CRC-32 checksum of data using the IEEE polynomial.
@@ -15,15 +15,26 @@ module CRC32 {
     private func simpleUpdate(crc : Nat32, table: [Nat32], data : [Nat8]) : Nat32 {
         var u = ^crc;
         for (v in data.vals()) {
-            u := table[Nat8.toNat(Util.nat32ToNat8(u) ^ v)] ^ (u >> 8)
+            u := table[Nat8.toNat(util.nat32ToNat8(u) ^ v)] ^ (u >> 8)
         };
         ^u;
     };
 
     private func slicingUpdate(crc : Nat32, table: [[Nat32]], data : [Nat8]) : Nat32 {
         if (data.size() == 0 ) { return crc;    };
-        if (data.size() >= 16) { assert(false); }; // Not supported.
-        simpleUpdate(crc, table[0], data);
+        let u = if (data.size() >= 16) {
+            var u = ^crc;
+            var p = data;
+            while (p.size() > 8) {
+                u := ^(util.nat8ToNat32(data[0])       | util.nat8ToNat32(data[1]) << 8 |
+                       util.nat8ToNat32(data[2]) << 16 | util.nat8ToNat32(data[3]) << 24);
+                u := table[0][Nat8.toNat(p[7])]     ^ table[1][Nat8.toNat(p[6])]              ^ table[2][Nat8.toNat(p[5])]             ^ table[3][Nat8.toNat(p[4])] ^
+                     table[4][Nat32.toNat(u >> 24)] ^ table[5][Nat32.toNat((u >> 16) & 0xFF)] ^ table[6][Nat32.toNat((u >> 8) & 0xFF)] ^ table[7][Nat32.toNat(u & 0xFF)];
+                p := util.drop(p, 8);
+            };
+            ^u;
+        } else { crc; };
+        simpleUpdate(u, table[0], data);
     };
 
     let IEEE : Nat32 = 0xedb88320;
