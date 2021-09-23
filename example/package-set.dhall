@@ -5,7 +5,7 @@ let Package =
 let additions = [
    { name = "principal"
    , repo = "https://github.com/aviate-labs/principal.mo"
-   , version = "v0.1.1"
+   , version = "v0.1.2"
    , dependencies = [ "base" ]
    }
 ]

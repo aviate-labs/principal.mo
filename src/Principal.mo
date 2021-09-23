@@ -4,9 +4,9 @@ import Char "mo:base/Char";
 import Prim "mo:⛔"; // Char.toLower();
 import Principal "mo:base/Principal";
 
-import Base32 "base32";
-import CRC32 "crc32";
-import Util "util"
+import Base32 "Base32";
+import CRC32 "CRC32";
+import util "util"
 
 module {
     public let fromText : (t : Text) -> Principal = Principal.fromText;
@@ -16,12 +16,12 @@ module {
     public func fromBlob(b : Blob) : Principal {
         let bs  = Blob.toArray(b);
         let b32 = Base32.encode(Array.append<Nat8>(
-            Util.nat32ToNat8Array(CRC32.checksum(bs)), 
+            util.nat32ToNat8Array(CRC32.checksum(bs)),
             bs,
         ));
         var id = "";
         for (i in b32.keys()) {
-            let c = Prim.charToLower(Char.fromNat32(Util.nat8ToNat32(b32[i])));
+            let c = Prim.charToLower(Char.fromNat32(util.nat8ToNat32(b32[i])));
             id #= Char.toText(c);
             if ((i + 1) % 5 == 0 and i + 1 != b32.size()) {
                 id #= "-"
