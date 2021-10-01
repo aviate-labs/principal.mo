@@ -1,6 +1,7 @@
 on:
   push:
     paths:
+      - 'example/**'
       - 'src/**'
 jobs:
   src:
@@ -12,4 +13,6 @@ jobs:
           dfx-version: 0.8.1
           install-moc: true
           vessel-version: 0.6.2
-      - run: for i in src/*.mo ; do moc $(vessel sources) --check $i ; done
+      - run: |
+          cd example
+          moc $(vessel sources) --check src/example/main.mo

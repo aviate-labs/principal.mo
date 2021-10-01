@@ -4,11 +4,16 @@ import Blob "mo:base/Blob";
 import Hash "mo:base/Hash";
 import Hex "mo:encoding/Hex";
 import Principal "mo:base/Principal";
+import Result "mo:base/Result";
 import SHA256 "mo:sha/SHA256";
 
 import CRC32 "CRC32";
 
+import util "util";
+
 module {
+    // Represents an account identifier that was dirived from a principal.
+    // NOTE: does NOT include the hash, unlike in the textual representation.
     public type AccountIdentifier = [Nat8]; // Size 28
     public type SubAccount        = [Nat8]; // Size 4
 
@@ -28,8 +33,21 @@ module {
         Hex.encode(Array.append<Nat8>(Binary.BigEndian.fromNat32(hash(accountId)), accountId));
     };
 
+    // Decodes the given hex encoded account identifier.
+    // NOTE: does not validate if the hash/account identifier.
+    public func fromText(accountId : Text) : Result.Result<AccountIdentifier, Text> {
+        switch (Hex.decode(accountId)) {
+            case (#err(e)) { #err(e); };
+            case (#ok(bs)) {
+                // Remove the hash prefix.
+                #ok(util.drop<Nat8>(bs, 4));
+            };
+        };
+    };
+
     private let prefix : [Nat8] = [10, 97, 99, 99, 111, 117, 110, 116, 45, 105, 100];
 
+    // Creates an account identifier based on the given principal and subaccount.
     public func fromPrincipal(p : Principal, subAccount : ?SubAccount) : AccountIdentifier {
         fromBlob(Principal.toBlob(p), subAccount);
     };

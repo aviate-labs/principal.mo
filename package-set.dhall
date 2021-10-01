@@ -9,7 +9,7 @@ let additions = [
   },
   { name = "encoding"
   , repo = "https://github.com/aviate-labs/encoding.mo"
-  , version = "v0.2.1"
+  , version = "v0.2.2"
   , dependencies = ["base"]
   }
 ] : List Package

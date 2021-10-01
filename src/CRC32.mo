@@ -9,8 +9,7 @@ import Debug "mo:base/Debug";
 import util "util";
 
 module CRC32 {
-    // Returns the CRC-32 checksum of data using the IEEE polynomial.
-    // @pre: data.size() < 16
+    // Returns the CRC-32 checksum of the given data using the IEEE polynomial.
     public func checksum(data : [Nat8]) : Hash.Hash {
         Table.slicingUpdate(0, Table.slicingTable, data);
     };
