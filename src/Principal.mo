@@ -19,18 +19,22 @@ module {
             nat32ToNat8Array(CRC32.checksum(bs)),
             bs,
         ));
-        var id = "";
-        for (i in b32.keys()) {
-            let c = Prim.charToLower(Char.fromNat32(nat8ToNat32(b32[i])));
-            id #= Char.toText(c);
-            if ((i + 1) % 5 == 0 and i + 1 != b32.size()) {
-                id #= "-"
-            }
-        };
-        Principal.fromText(id);
+        Principal.fromText(format(b32));
     };
 
     public let toBlob : (p : Principal) -> Blob = Principal.toBlob;
+
+    public func format(bs : [Nat8]) : Text {
+        var id = "";
+        for (i in bs.keys()) {
+            let c = Prim.charToLower(Char.fromNat32(nat8ToNat32(bs[i])));
+            id #= Char.toText(c);
+            if ((i + 1) % 5 == 0 and i + 1 != bs.size()) {
+                id #= "-"
+            };
+        };
+        id;
+    };
 
     private func nat8ToNat32(n : Nat8) : Nat32 {
         Nat32.fromNat(Nat8.toNat(n));
