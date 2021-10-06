@@ -1,12 +1,12 @@
 import Array "mo:base/Array";
+import Base32 "mo:encoding/Base32";
 import Blob "mo:base/Blob";
 import Char "mo:base/Char";
+import CRC32 "mo:hash/CRC32";
+import Nat8 "mo:base/Nat8";
+import Nat32 "mo:base/Nat32";
 import Prim "mo:⛔"; // Char.toLower();
 import Principal "mo:base/Principal";
-
-import Base32 "Base32";
-import CRC32 "CRC32";
-import util "util"
 
 module {
     public let fromText : (t : Text) -> Principal = Principal.fromText;
@@ -16,12 +16,12 @@ module {
     public func fromBlob(b : Blob) : Principal {
         let bs  = Blob.toArray(b);
         let b32 = Base32.encode(Array.append<Nat8>(
-            util.nat32ToNat8Array(CRC32.checksum(bs)),
+            nat32ToNat8Array(CRC32.checksum(bs)),
             bs,
         ));
         var id = "";
         for (i in b32.keys()) {
-            let c = Prim.charToLower(Char.fromNat32(util.nat8ToNat32(b32[i])));
+            let c = Prim.charToLower(Char.fromNat32(nat8ToNat32(b32[i])));
             id #= Char.toText(c);
             if ((i + 1) % 5 == 0 and i + 1 != b32.size()) {
                 id #= "-"
@@ -31,4 +31,21 @@ module {
     };
 
     public let toBlob : (p : Principal) -> Blob = Principal.toBlob;
+
+    private func nat8ToNat32(n : Nat8) : Nat32 {
+        Nat32.fromNat(Nat8.toNat(n));
+    };
+
+    private func nat32ToNat8(n : Nat32) : Nat8 {
+        Nat8.fromNat(Nat32.toNat(n) % 256);
+    };
+
+    private func nat32ToNat8Array(n : Nat32) : [Nat8] {
+        [
+            nat32ToNat8(n >> 24),
+            nat32ToNat8(n >> 16),
+            nat32ToNat8(n >> 8),
+            nat32ToNat8(n),
+        ];
+    };
 }

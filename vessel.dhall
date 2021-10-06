@@ -1,4 +1,4 @@
 {
-  dependencies = [ "base", "sha", "encoding" ],
+  dependencies = [ "array", "base", "hash", "encoding", "sha" ],
   compiler = None Text
 }

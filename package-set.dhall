@@ -1,16 +1,21 @@
-let upstream = https://github.com/dfinity/vessel-package-set/releases/download/mo-0.6.7-20210818/package-set.dhall sha256:c4bd3b9ffaf6b48d21841545306d9f69b57e79ce3b1ac5e1f63b068ca4f89957
+let upstream = https://github.com/aviate-labs/package-set/releases/download/v0.1.1/package-set.dhall sha256:f1a3f0af31ad92eca20cc829f1fb32ed54e9c6a49257f43c3831732b37bf7559
 let Package = { name : Text, version : Text, repo : Text, dependencies : List Text }
 
 let additions = [
-  { name = "sha"
-  , repo = "https://github.com/aviate-labs/sha.mo"
+  { name = "array"
+  , repo = "https://github.com/aviate-labs/array.mo"
   , version = "v0.1.1"
-  , dependencies = ["base", "encoding"]
+  , dependencies = [ "base" ]
+  },
+  { name = "hash"
+  , repo = "https://github.com/aviate-labs/hash.mo"
+  , version = "v0.1.0"
+  , dependencies = [ "base" ]
   },
   { name = "encoding"
   , repo = "https://github.com/aviate-labs/encoding.mo"
-  , version = "v0.2.2"
-  , dependencies = ["base"]
+  , version = "v0.3.0"
+  , dependencies = [ "base", "array" ]
   }
 ] : List Package
 

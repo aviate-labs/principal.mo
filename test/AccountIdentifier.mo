@@ -2,7 +2,6 @@ import Hex "mo:encoding/Hex";
 import Principal "mo:base/Principal";
 
 import AccountIdentifier "../src/AccountIdentifier";
-import util "../src/util";
 
 let p  = Principal.fromText("g42pg-k3n7u-4sals-ufza4-34yrp-mmvkt-psecp-7do7x-snvq4-llwrj-2ae");
 let a  = AccountIdentifier.fromPrincipal(p, null);
