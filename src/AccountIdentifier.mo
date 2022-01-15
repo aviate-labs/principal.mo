@@ -7,7 +7,7 @@ import Hash "mo:base/Hash";
 import Hex "mo:encoding/Hex";
 import Principal "mo:base/Principal";
 import Result "mo:base/Result";
-import SHA256 "mo:sha/SHA256";
+import SHA224 "mo:crypto/SHA/SHA224";
 
 module {
     // Represents an account identifier that was dirived from a principal.
@@ -63,6 +63,6 @@ module {
             case (null) { Array.freeze(Array.init<Nat8>(32, 0)); };
             case (?sa)  { sa; };
         };
-        SHA256.sum224(Array.flatten<Nat8>([prefix, data, account]));
+        SHA224.sum(Array.flatten<Nat8>([prefix, data, account]));
     };
 };
