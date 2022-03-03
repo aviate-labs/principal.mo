@@ -26,7 +26,14 @@ module {
     };
 
     public func addHash(accountId : AccountIdentifier) : [Nat8] {
-        Array.append<Nat8>(Binary.BigEndian.fromNat32(hash(accountId)), accountId);
+        let h = Binary.BigEndian.fromNat32(hash(accountId));
+        Array.tabulate<Nat8>(
+            4 + accountId.size(),
+            func (i : Nat) : Nat8 {
+                if (i < 4) return h[i];
+                accountId[i - 4];
+            }
+        );
     };
 
     // Hex string of length 64. The first 8 characters are the CRC-32 encoded

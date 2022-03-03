@@ -15,9 +15,13 @@ module {
 
     public func fromBlob(b : Blob) : Principal {
         let bs  = Blob.toArray(b);
-        let b32 = Base32.encode(Array.append<Nat8>(
-            nat32ToNat8Array(CRC32.checksum(bs)),
-            bs,
+        let cs = nat32ToNat8Array(CRC32.checksum(bs));
+        let b32 = Base32.encode(Array.tabulate<Nat8>(
+            4 + bs.size(),
+            func (i : Nat) : Nat8 {
+                if (i < 4) return cs[i];
+                return bs[i - 4];
+            }
         ));
         Principal.fromText(format(b32));
     };
