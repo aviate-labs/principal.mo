@@ -1,15 +1,13 @@
-on:
-  push:
-    paths:
-      - 'src/**'
-      - 'test/**'
+on: push
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: aviate-labs/setup-dfx@v0.2.3
         with:
-          dfx-version: 0.8.6
-          vessel-version: 0.6.2
-      - run: for i in test/*.mo ; do $(vessel bin)/moc $(vessel sources) -r $i ; done
+          dfx-version: 0.12.1
+          vessel-version: 0.6.3
+      - run: |
+          make check
+          make test

@@ -1,12 +1,12 @@
-import Array "mo:base/Array";
+import Array "mo:base-0.7.3/Array";
 import Array_ "mo:array/Array";
 import Binary "mo:encoding/Binary";
-import Blob "mo:base/Blob";
+import Blob "mo:base-0.7.3/Blob";
 import CRC32 "mo:hash/CRC32";
-import Hash "mo:base/Hash";
+import Hash "mo:base-0.7.3/Hash";
 import Hex "mo:encoding/Hex";
-import Principal "mo:base/Principal";
-import Result "mo:base/Result";
+import Principal "mo:base-0.7.3/Principal";
+import Result "mo:base-0.7.3/Result";
 import SHA224 "mo:crypto/SHA/SHA224";
 
 module {

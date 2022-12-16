@@ -1,12 +1,12 @@
-import Array "mo:base/Array";
+import Array "mo:base-0.7.3/Array";
 import Base32 "mo:encoding/Base32";
-import Blob "mo:base/Blob";
-import Char "mo:base/Char";
+import Blob "mo:base-0.7.3/Blob";
+import Char "mo:base-0.7.3/Char";
 import CRC32 "mo:hash/CRC32";
-import Nat8 "mo:base/Nat8";
-import Nat32 "mo:base/Nat32";
+import Nat8 "mo:base-0.7.3/Nat8";
+import Nat32 "mo:base-0.7.3/Nat32";
 import Prim "mo:⛔"; // Char.toLower();
-import Principal "mo:base/Principal";
+import Principal "mo:base-0.7.3/Principal";
 
 module {
     public let fromText : (t : Text) -> Principal = Principal.fromText;

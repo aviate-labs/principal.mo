@@ -1,7 +1,7 @@
-import Blob "mo:base/Blob";
+import Blob "mo:base-0.7.3/Blob";
 import Hex "mo:encoding/Hex";
-import Principal "mo:base/Principal";
-import Result "mo:base/Result";
+import Principal "mo:base-0.7.3/Principal";
+import Result "mo:base-0.7.3/Result";
 
 import AccountIdentifier "../AccountIdentifier";
 
